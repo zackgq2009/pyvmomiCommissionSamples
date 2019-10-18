@@ -10,7 +10,7 @@
 # This code has been released under the terms of the Apache-2.0 license
 # http://opensource.org/licenses/Apache-2.0
 #
-# turn on the ethernet when VM poweron
+
 import atexit
 import requests
 from tools import cli

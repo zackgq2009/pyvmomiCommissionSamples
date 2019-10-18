@@ -9,7 +9,7 @@ http://opensource.org/licenses/Apache-2.0
 """
 
 from __future__ import print_function
-from pyVim.connect import SmartConnect, Disconnect, SmartConnectNoSSL
+from pyVim.connect import SmartConnect, Disconnect
 from pyVmomi import vim
 import atexit
 import sys
@@ -64,7 +64,7 @@ def GetHostsSwitches(hosts):
 
 def main():
     args = get_args()
-    serviceInstance = SmartConnectNoSSL(host=args.host,
+    serviceInstance = SmartConnect(host=args.host,
                                    user=args.user,
                                    pwd=args.password,
                                    port=443)

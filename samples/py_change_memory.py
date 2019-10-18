@@ -1,10 +1,9 @@
-#!/usr/bin/env python                                                                                                                                                           
-
+#!/usr/bin/env python
 """                                                                                                                                                                             
 Python program that generates various statistics for one or more virtual machines                                                                                               
 A list of virtual machines can be provided as a comma separated list.                                                                                                           
 """
-# change the RAM of vm with MB
+
 from __future__ import print_function
 from pyVim.connect import SmartConnect, Disconnect, SmartConnectNoSSL
 from pyVmomi import vmodl, vim
@@ -39,7 +38,7 @@ def get_args():
                     required=False,
                     action='store',
                     help='Password to use')
-                    
+
         parser.add_argument('-v', '--vm-name',
                     required=False,
                     action='store',
@@ -65,7 +64,7 @@ def get_args():
         if not args.password:
             args.password = getpass.getpass(prompt='Enter password')
         return args
-        
+
 def get_obj(content, vimtype, name):
         obj = None
         container = content.viewManager.CreateContainerView(content.rootFolder, vimtype, True)
@@ -85,17 +84,17 @@ def change_vcpu(vm, si, vcpu_nu):
 def change_memory(vm, si, mem_size):
         mem_size=long(mem_size)
         cspec = vim.vm.ConfigSpec()
-        cspec.memoryMB = mem_size # MB of memory                                                                                                                                
+        cspec.memoryMB = mem_size # MB of memory
         WaitForTask(vm.Reconfigure(cspec))
-        
+
 def main():
         args = get_args()
-# connect this thing                                                                                                                                                            
+# connect this thing
         si = SmartConnectNoSSL(host=args.host,
                 user=args.user,
                 pwd=args.password,
                 port=args.port)
-# disconnect this thing                                                                                                                                                         
+# disconnect this thing
         atexit.register(Disconnect, si)
         if args.uuid:
                 search_index = si.content.searchIndex
@@ -120,4 +119,4 @@ def main():
                 print("VM not found")
 
 if __name__ == "__main__":
-    main()                
+    main()

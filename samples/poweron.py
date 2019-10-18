@@ -7,7 +7,7 @@ http://www.apache.org/licenses/LICENSE-2.0.html
                                                                                                                                                                                 
 Example code for using the task scheduler.                                                                                                                                      
 """
-# poweron the vm machine
+
 import atexit
 import argparse
 import getpass

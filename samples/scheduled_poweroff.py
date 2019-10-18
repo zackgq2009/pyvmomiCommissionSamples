@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 """
+Written by Gaël Berthaud-Müller
 Github : https://github.com/blacksponge
 
 This code is released under the terms of the Apache 2
@@ -14,9 +15,6 @@ import getpass
 from datetime import datetime
 from pyVmomi import vim
 from pyVim import connect
-
-from tools import cli
-from tools import tasks
 
 
 def get_args():
@@ -65,12 +63,10 @@ def main():
         return -1
 
     atexit.register(connect.Disconnect, si)
-    # vm = None
-    #
+
     view = si.content.viewManager.CreateContainerView(si.content.rootFolder,
                                                       [vim.VirtualMachine],
                                                       True)
-    vms = [vm for vm in view.view if vm.name == args.vmname]
     vms = [vm for vm in view.view if vm.name == args.vmname]
 
     if not vms:
@@ -79,22 +75,16 @@ def main():
         return -1
     vm = vms[0]
 
-    # vm = si.content.searchIndex.FindByDnsName(None, args.vmname,
-    #                                           True)
+    spec = vim.scheduler.ScheduledTaskSpec()
+    spec.name = 'PowerOff vm %s' % args.vmname
+    spec.description = ''
+    spec.scheduler = vim.scheduler.OnceTaskScheduler()
+    spec.scheduler.runAt = dt
+    spec.action = vim.action.MethodAction()
+    spec.action.name = vim.VirtualMachine.PowerOff
+    spec.enabled = True
 
-    # spec = vim.scheduler.ScheduledTaskSpec()
-    # spec.name = 'PowerOff vm %s' % args.vmname
-    # spec.description = 'poweroff vm machine'
-    # spec.scheduler = vim.scheduler.OnceTaskScheduler()
-    # spec.scheduler.runAt = dt
-    # spec.action = vim.action.MethodAction()
-    # spec.action.name = vim.VirtualMachine.PowerOff
-    # spec.enabled = True
-
-    # si.content.scheduledTaskManager.CreateScheduledTask(vm, spec)
-
-    TASK = vm.PowerOff()
-    tasks.wait_for_tasks(si, [TASK])
+    si.content.scheduledTaskManager.CreateScheduledTask(vm, spec)
 
 
 if __name__ == "__main__":

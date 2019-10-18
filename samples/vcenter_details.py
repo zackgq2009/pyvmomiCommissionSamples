@@ -57,11 +57,11 @@ def main():
     try:
         context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
         context.verify_mode = ssl.CERT_NONE
-        service_instance = connect.SmartConnectNoSSL(host=args.host,
+        service_instance = connect.SmartConnect(host=args.host,
                                                 user=args.user,
                                                 pwd=args.password,
-                                                port=int(args.port))
-                                                # sslContext=context)
+                                                port=int(args.port),
+                                                sslContext=context)
 
         if not service_instance:
             print("Could not connect to the specified host using specified "

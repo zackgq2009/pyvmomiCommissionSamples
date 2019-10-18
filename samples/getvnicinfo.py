@@ -17,7 +17,7 @@
 # limitations under the License.
 
 from __future__ import print_function
-from pyVim.connect import SmartConnect, Disconnect, SmartConnectNoSSL
+from pyVim.connect import SmartConnect, Disconnect
 from pyVmomi import vim
 import atexit
 import sys
@@ -117,7 +117,7 @@ def GetArgs():
 def main():
     global content, hosts, hostPgDict
     host, user, password = GetArgs()
-    serviceInstance = SmartConnectNoSSL(host=host,
+    serviceInstance = SmartConnect(host=host,
                                    user=user,
                                    pwd=password,
                                    port=443)

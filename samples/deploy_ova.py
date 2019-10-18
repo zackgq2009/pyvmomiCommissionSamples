@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 """
+Written by Nathan Prziborowski
 Github: https://github.com/prziborowski
 
 This code is released under the terms of the Apache 2
@@ -10,7 +11,6 @@ Most of the functionality is similar to ovf except that
 that an OVA file is a "tarball" so tarfile module is leveraged.
 
 """
-# deploy ova,but should decode('utf-8')
 import atexit
 import os
 import os.path
@@ -45,10 +45,6 @@ def setup_args():
     parser.add_argument('-ds', '--datastore',
                         help='Name of datastore to use. '
                              'Defaults to largest free space in datacenter.')
-    parser.add_argument('-n', '--new_name',
-                        required=False,
-                        action='store',
-                        help='New name of the entity.')
     return cli.prompt_for_password(parser.parse_args())
 
 

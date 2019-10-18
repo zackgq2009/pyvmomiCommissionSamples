@@ -16,7 +16,7 @@ import atexit
 import requests
 from tools import cli
 from pyVmomi import vim
-from pyVim.connect import SmartConnect, Disconnect, SmartConnectNoSSL
+from pyVim.connect import SmartConnect, Disconnect
 from tools import tasks
 
 # disable  urllib3 warnings
@@ -95,7 +95,7 @@ def main():
     args = get_args()
 
     # connect to vc
-    si = SmartConnectNoSSL(
+    si = SmartConnect(
         host=args.host,
         user=args.user,
         pwd=args.password,

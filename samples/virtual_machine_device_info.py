@@ -204,7 +204,7 @@ def get_args():
 args = get_args()
 
 # form a connection...
-si = connect.SmartConnectNoSSL(host=args.host, user=args.user, pwd=args.password,
+si = connect.SmartConnect(host=args.host, user=args.user, pwd=args.password,
                           port=args.port)
 
 # Note: from daemons use a shutdown hook to do this, not the atexit
