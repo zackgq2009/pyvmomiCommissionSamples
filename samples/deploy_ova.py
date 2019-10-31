@@ -82,7 +82,7 @@ def main():
     # diskProvisioning (thin/thick/sparse/etc)
     # networkMapping (to map to networks)
     # propertyMapping (descriptor specific properties)
-    cisp = vim.OvfManager.CreateImportSpecParams()
+    cisp = vim.OvfManager.CreateImportSpecParams(diskProvisioning='thin') #deploy disk type is thin, default is thick
     cisr = ovfManager.CreateImportSpec(ovf_handle.get_descriptor(),
                                        rp, ds, cisp)
 
