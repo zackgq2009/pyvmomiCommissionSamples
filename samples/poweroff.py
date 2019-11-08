@@ -1,11 +1,11 @@
-#!/usr/bin/env python                                                                                                                                                           
-"""                                                                                                                                                                             
-Github : https://github.com/blacksponge                                                                                                                                         
-                                                                                                                                                                                
-This code is released under the terms of the Apache 2                                                                                                                           
-http://www.apache.org/licenses/LICENSE-2.0.html                                                                                                                                 
-                                                                                                                                                                                
-Example code for using the task scheduler.                                                                                                                                      
+#!/usr/bin/env python
+"""
+Github : https://github.com/blacksponge
+
+This code is released under the terms of the Apache 2
+http://www.apache.org/licenses/LICENSE-2.0.html
+
+Example code for using the task scheduler.
 """
 
 import atexit
@@ -54,19 +54,23 @@ def main():
         password = getpass.getpass(prompt='Enter password for host %s and '
                                    'user %s: ' % (args.host, args.user))
 
-    try:
-        si = connect.SmartConnectNoSSL(host=args.host,
-                                       user=args.user,
-                                       pwd=password,
-                                       port=int(args.port))
-    except vim.fault.InvalidLogin:
-        print("Could not connect to the specified host using specified "
-              "username and password")
-        return -1
+    # try:
+    #     si = connect.SmartConnectNoSSL(host=args.host,
+    #                                    user=args.user,
+    #                                    pwd=password,
+    #                                    port=int(args.port))
+    # except vim.fault.InvalidLogin:
+    #     print("Could not connect to the specified host using specified "
+    #           "username and password")
+    #     return -1
+    si = connect.SmartConnectNoSSL(host=args.host,
+                                   user=args.user,
+                                   pwd=password,
+                                   port=int(args.port))
 
     atexit.register(connect.Disconnect, si)
-    # vm = None                                                                                                                                                                 
-    # 
+    # vm = None
+    #
     view = si.content.viewManager.CreateContainerView(si.content.rootFolder,
                                                       [vim.VirtualMachine],
                                                       True)
@@ -78,19 +82,19 @@ def main():
         return -1
     vm = vms[0]
 
-    # vm = si.content.searchIndex.FindByDnsName(None, args.vmname,                                                                                                              
-    #                                           True)                                                                                                                           
+    # vm = si.content.searchIndex.FindByDnsName(None, args.vmname,
+    #                                           True)
 
-    # spec = vim.scheduler.ScheduledTaskSpec()                                                                                                                                  
-    # spec.name = 'PowerOff vm %s' % args.vmname                                                                                                                                
-    # spec.description = 'poweroff vm machine'                                                                                                                                  
-    # spec.scheduler = vim.scheduler.OnceTaskScheduler()                                                                                                                        
-    # spec.scheduler.runAt = dt                                                                                                                                                 
-    # spec.action = vim.action.MethodAction()                                                                                                                                   
-    # spec.action.name = vim.VirtualMachine.PowerOff                                                                                                                            
-    # spec.enabled = True                                                                                                                                                       
+    # spec = vim.scheduler.ScheduledTaskSpec()
+    # spec.name = 'PowerOff vm %s' % args.vmname
+    # spec.description = 'poweroff vm machine'
+    # spec.scheduler = vim.scheduler.OnceTaskScheduler()
+    # spec.scheduler.runAt = dt
+    # spec.action = vim.action.MethodAction()
+    # spec.action.name = vim.VirtualMachine.PowerOff
+    # spec.enabled = True
 
-    # si.content.scheduledTaskManager.CreateScheduledTask(vm, spec)                                                                                                             
+    # si.content.scheduledTaskManager.CreateScheduledTask(vm, spec)
 
     TASK = vm.PowerOff()
     tasks.wait_for_tasks(si, [TASK])

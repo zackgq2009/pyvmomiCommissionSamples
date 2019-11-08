@@ -54,17 +54,22 @@ def main():
         password = getpass.getpass(prompt='Enter password for host %s and '
                                    'user %s: ' % (args.host, args.user))
 
-    try:
-        si = connect.SmartConnectNoSSL(host=args.host,
-                                       user=args.user,
-                                       pwd=password,
-                                       port=int(args.port))
-    except vim.fault.InvalidLogin:
-        print("Could not connect to the specified host using specified "
-              "username and password")
-        return -1
+    # try:
+    #     si = connect.SmartConnectNoSSL(host=args.host,
+    #                                    user=args.user,
+    #                                    pwd=password,
+    #                                    port=int(args.port))
+    # except vim.fault.InvalidLogin:
+    #     print("Could not connect to the specified host using specified "
+    #           "username and password")
+    #     return -1
+    si = connect.SmartConnectNoSSL(host=args.host,
+                                   user=args.user,
+                                   pwd=password,
+                                   port=int(args.port))
 
     atexit.register(connect.Disconnect, si)
+
     # vm = None
     #
     view = si.content.viewManager.CreateContainerView(si.content.rootFolder,
