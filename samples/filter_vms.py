@@ -84,11 +84,12 @@ def main():
     options = vmodl.query.PropertyCollector.RetrieveOptions()
     result = pc.RetrievePropertiesEx([filter_spec], options)
     vms = filter_results(result, args.value)
-    #print("VMs with %s = %s" % (args.property, args.value))
+    # print("VMs with %s = %s" % (args.property, args.value))
     for vm in vms:
-       # print(vm.name)
+        # print(vm.name)
         print(vm.summary.guest.ipAddress)
         print(vm.summary.config.instanceUuid)
+        print(vm.summary.runtime.powerState)
 
     Disconnect(si)
 
