@@ -21,7 +21,7 @@ Python program for listing the vms on an ESX / vCenter host
 import re
 import atexit
 
-from pyvim import connect
+from pyVim import connect
 from pyVmomi import vmodl
 from pyVmomi import vim
 

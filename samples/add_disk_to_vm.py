@@ -15,7 +15,7 @@ and I have not yet worked through that
 """
 from pyVmomi import vim
 from pyVmomi import vmodl
-from pyVim.connect import SmartConnect, Disconnect
+from pyVim.connect import SmartConnect, Disconnect, SmartConnectNoSSL
 import atexit
 import argparse
 import getpass
@@ -128,7 +128,7 @@ def main():
     args = get_args()
 
     # connect this thing
-    si = SmartConnect(
+    si = SmartConnectNoSSL(
         host=args.host,
         user=args.user,
         pwd=args.password,

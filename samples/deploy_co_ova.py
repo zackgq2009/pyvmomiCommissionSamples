@@ -82,7 +82,13 @@ def main():
     # diskProvisioning (thin/thick/sparse/etc)
     # networkMapping (to map to networks)
     # propertyMapping (descriptor specific properties)
-    cisp = vim.OvfManager.CreateImportSpecParams(entityName='AutomationServer', diskProvisioning='thin') #deploy disk type is thin, default is thick
+#    netmap = [vim.OvfManager.NetworkMapping(name='eth0', network=get_obj(si.content, [vim.Network], 'network'))]
+#    propertyMappingDict = {'ip0':'172.30.57.50', 'DNS':'172.30.52.31', 'netmask0':'255.255.252.0', 'gateway':'172.30.56.1'}
+#    mapping = []
+#    for k in propertyMappingDict:
+#        v = propertyMappingDict[k]
+#        mapping.append(vim.KeyValue(key=k, value=v))
+    cisp = vim.OvfManager.CreateImportSpecParams(entityName='AutomationCOServer', diskProvisioning='thin') #deploy disk type is thin, default is thick
     cisr = ovfManager.CreateImportSpec(ovf_handle.get_descriptor(),
                                        rp, ds, cisp)
 
@@ -110,6 +116,9 @@ def main():
     print("Starting deploy...")
     return ovf_handle.upload_disks(lease, args.host)
 
+def get_obj(content, vimtype, name = None):
+    return [item for item in content.viewManager.CreateContainerView(
+        content.rootFolder, [vimtype], recursive=True).view]
 
 def get_dc(si, name):
     """
