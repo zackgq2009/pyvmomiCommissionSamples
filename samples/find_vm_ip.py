@@ -123,7 +123,7 @@ def main():
                         print(child.guest.net[0].ipAddress[1])
                     else:
                         print(child.guest.net[0].ipAddress[0])
-                    # prn_obj(child.guest)
+                    # prn_obj(child.config.hardware)
 
     except vmodl.MethodFault as error:
         print("Caught vmodl fault : " + error.msg)
