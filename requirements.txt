@@ -4,3 +4,8 @@ requests
 suds>=0.4,<0.7 ; python_version < '3'
 suds-jurko ; python_version >= '3.0'
 vcrpy>=1.1.1
+yum install -y git
+yum install -y sendEmail
+yum install -y junitparser
+npm install junit-viewer -g
+pip2 install lxml
