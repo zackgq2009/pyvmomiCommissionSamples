@@ -72,6 +72,14 @@ def print_vm_info(virtual_machine):
 def prn_obj(obj):
   print '\n'.join(['%s:%s' % item for item in obj.__dict__.items()])
 
+def ipv6_regex(ipAddress):
+    '''
+    :param ipAddress:
+    :return: boolean regex the fe80:: start ipv6 address
+    '''
+    pattern = r'^fe80::.*'
+    return bool(re.match(pattern, ipAddress))
+
 def main():
     """
     Simple command-line program for listing the virtual machines on a system.
@@ -111,7 +119,8 @@ def main():
                 print(child.summary.runtime.powerState)
                 if len(child.guest.net[0].ipAddress) > 1:
                     for allIP in child.guest.net[0].ipAddress:
-                        print allIP
+                        if ipv6_regex(allIP):
+                            print allIP
                     # print(child.guest.net[0].ipAddress[1])
                 else:
                     print(child.guest.net[0].ipAddress[0])
@@ -124,7 +133,8 @@ def main():
                     if len(child.guest.net[0].ipAddress) > 1:
                         # print(child.guest.net[0].ipAddress[1])
                         for allIP in child.guest.net[0].ipAddress:
-                            print allIP
+                            if ipv6_regex(allIP):
+                                print allIP
                     else:
                         print(child.guest.net[0].ipAddress[0])
                     # prn_obj(child.config.hardware)
