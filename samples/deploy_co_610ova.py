@@ -45,6 +45,8 @@ def setup_args():
     parser.add_argument('-ds', '--datastore',
                         help='Name of datastore to use. '
                              'Defaults to largest free space in datacenter.')
+    parser.add_argument('-network', '--network', required=False,
+                        help='name of network to deploy')
     return cli.prompt_for_password(parser.parse_args())
 
 
