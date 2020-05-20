@@ -77,14 +77,29 @@ def main():
 
     ovf_handle = OvfHandler(args.ova_path)
 
-    ovfManager = si.content.ovfManager
-    # CreateImportSpecParams can specify many useful things such as
-    # diskProvisioning (thin/thick/sparse/etc)
-    # networkMapping (to map to networks)
-    # propertyMapping (descriptor specific properties)
-    cisp = vim.OvfManager.CreateImportSpecParams(entityName='AutomationWKServer610', diskProvisioning='thin') #deploy disk type is thin, default is thick
-    cisr = ovfManager.CreateImportSpec(ovf_handle.get_descriptor(),
-                                       rp, ds, cisp)
+    if args.network:
+        net_name = get_network_list(si, dc, args.network)
+        network = [vim.OvfManager.NetworkMapping(name='NAT', network=net_name)]
+        ovfManager = si.content.ovfManager
+        # CreateImportSpecParams can specify many useful things such as
+        # diskProvisioning (thin/thick/sparse/etc)
+        # networkMapping (to map to networks)
+        # propertyMapping (descriptor specific properties)
+        cisp = vim.OvfManager.CreateImportSpecParams(entityName='AutomationWKServer610', diskProvisioning='thin',
+                                                     networkMapping=network, ipAllocationPolicy='static',
+                                                     ipProtocol='IPv4')  # deploy disk type is thin, default is thick
+        cisr = ovfManager.CreateImportSpec(ovf_handle.get_descriptor(),
+                                           rp, ds, cisp)
+    else:
+        ovfManager = si.content.ovfManager
+        # CreateImportSpecParams can specify many useful things such as
+        # diskProvisioning (thin/thick/sparse/etc)
+        # networkMapping (to map to networks)
+        # propertyMapping (descriptor specific properties)
+        cisp = vim.OvfManager.CreateImportSpecParams(entityName='AutomationWKServer610',
+                                                     diskProvisioning='thin')  # deploy disk type is thin, default is thick
+        cisr = ovfManager.CreateImportSpec(ovf_handle.get_descriptor(),
+                                           rp, ds, cisp)
 
     # These errors might be handleable by supporting the parameters in
     # CreateImportSpecParams
@@ -110,6 +125,21 @@ def main():
     print("Starting deploy...")
     return ovf_handle.upload_disks(lease, args.host)
 
+def get_network_list(si, dc, networkName):
+    """
+     Get a network in the datacenter by its names.
+     """
+    viewManager = si.content.viewManager
+    containerView = viewManager.CreateContainerView(dc, [vim.Network],
+                                                    True)
+    try:
+        for rp in containerView.view:
+            if rp.name == networkName:
+                return rp
+    finally:
+        containerView.Destroy()
+    raise Exception("Failed to find network %s in datacenter %s" %
+                    (networkName, dc.name))
 
 def get_dc(si, name):
     """
