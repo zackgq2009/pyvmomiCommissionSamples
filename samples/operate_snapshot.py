@@ -142,7 +142,7 @@ def main():
         si = SmartConnectNoSSL(host=args.host,
                                user=args.user,
                                pwd=args.password,
-                               port=args.port)
+                               port=int(args.port))
         atexit.register(Disconnect, si)
     except:
         print("Unable to connect to %s" % args.host)
