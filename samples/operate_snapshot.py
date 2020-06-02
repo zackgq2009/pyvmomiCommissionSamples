@@ -52,7 +52,7 @@ def setup_args():
                         help='Password to use when connecting to host')
     parser.add_argument('-vn', '--vm_name', required=True,
                         help="the name of virtual machine.")
-    parser.add_argument('-o', '--operation', required=True,
+    parser.add_argument('-op', '--operation', required=True,
                         help="operation in 'create/remove/'revert/list_all/list_current/remove_all'")
     parser.add_argument('-sn', '--snapshot_name', required=True,
                         help="Name for the Snapshot")
