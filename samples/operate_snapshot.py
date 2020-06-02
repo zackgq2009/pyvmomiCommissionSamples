@@ -40,7 +40,8 @@ from pyVim.connect import Disconnect, SmartConnect, GetSi, SmartConnectNoSSL
 from tools import cli
 
 def setup_args():
-    parser = cli.build_arg_parser()
+    parser = argparse.ArgumentParser(
+        description='Operation of Snapshot in Virtual Machine.')
     parser.add_argument('-vn', '--vm_name', required=True,
                         help="the name of virtual machine.")
     parser.add_argument('-o', '--operation', required=True,
@@ -48,7 +49,7 @@ def setup_args():
     parser.add_argument('-sn', '--snapshot_name', required=True,
                         help="Name for the Snapshot")
     my_args = parser.parse_args()
-    return cli.prompt_for_password(my_args)
+    return my_args
 
 # inputs = {'vcenter_ip': '192.168.1.10',
 #           'vcenter_password': 'my_password',
