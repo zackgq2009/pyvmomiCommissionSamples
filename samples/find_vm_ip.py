@@ -106,23 +106,35 @@ def main():
             pat = re.compile(args.find, re.IGNORECASE)
         for child in children:
             if args.find is None:
+                # prn_obj(child.guest)
                 print(child.summary.guest.ipAddress)
                 print(child.summary.config.instanceUuid)
                 print(child.summary.runtime.powerState)
-                if len(child.guest.net[0].ipAddress) > 1:
-                    print(child.guest.net[0].ipAddress[1])
+                if len(child.guest.net) < 1:
+                    print ("can't get any info of network")
                 else:
-                    print(child.guest.net[0].ipAddress[0])
+                    if len(child.guest.net[0].ipAddress) < 1:
+                        print ("can't get any ipAddress")
+                    elif len(child.guest.net[0].ipAddress) > 1:
+                        print(child.guest.net[0].ipAddress[1])
+                    elif len(child.guest.net[0].ipAddress) == 1:
+                        print(child.guest.net[0].ipAddress[0])
             else:
                 if pat.search(child.summary.config.name) is not None:
-                   # print_vm_info(child)
+                    # print_vm_info(child)
+                    # prn_obj(child.guest)
                     print(child.summary.guest.ipAddress)
                     print(child.summary.config.instanceUuid)
                     print(child.summary.runtime.powerState)
-                    if len(child.guest.net[0].ipAddress) > 1:
-                        print(child.guest.net[0].ipAddress[1])
+                    if len(child.guest.net) < 1:
+                        print ("can't get any info of network")
                     else:
-                        print(child.guest.net[0].ipAddress[0])
+                        if len(child.guest.net[0].ipAddress) < 1:
+                            print ("can't get any ipAddress")
+                        elif len(child.guest.net[0].ipAddress) > 1:
+                            print(child.guest.net[0].ipAddress[1])
+                        elif len(child.guest.net[0].ipAddress) == 1:
+                            print(child.guest.net[0].ipAddress[0])
                     # prn_obj(child.config.hardware)
 
     except vmodl.MethodFault as error:
