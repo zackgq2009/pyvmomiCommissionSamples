@@ -87,9 +87,9 @@ def main():
         # diskProvisioning (thin/thick/sparse/etc)
         # networkMapping (to map to networks)
         # propertyMapping (descriptor specific properties)
-        cisp = vim.OvfManager.CreateImportSpecParams(entityName='AutomationServer600', diskProvisioning='thin',
-                                                     networkMapping=network, ipAllocationPolicy='static',
-                                                     ipProtocol='IPv4')  # deploy disk type is thin, default is thick
+        cisp = vim.OvfManager.CreateImportSpecParams(entityName='AutomationServer532', diskProvisioning='thin',
+                                                     networkMapping=network, ipAllocationPolicy="Static - Manual",
+                                                     ipProtocol='IPV4')  # deploy disk type is thin, default is thick
         cisr = ovfManager.CreateImportSpec(ovf_handle.get_descriptor(),
                                            rp, ds, cisp)
     else:
@@ -98,7 +98,7 @@ def main():
         # diskProvisioning (thin/thick/sparse/etc)
         # networkMapping (to map to networks)
         # propertyMapping (descriptor specific properties)
-        cisp = vim.OvfManager.CreateImportSpecParams(entityName='AutomationServer600', diskProvisioning='thin')  # deploy disk type is thin, default is thick
+        cisp = vim.OvfManager.CreateImportSpecParams(entityName='AutomationServer532', diskProvisioning='thin')  # deploy disk type is thin, default is thick
         cisr = ovfManager.CreateImportSpec(ovf_handle.get_descriptor(),
                                            rp, ds, cisp)
 
